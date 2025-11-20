@@ -10,15 +10,35 @@
     --font-mona: 'Mona Sans', system-ui, sans-serif;
     --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
     --font-manrope: 'Manrope', system-ui, sans-serif;
+    --font-serif-luxe: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+
+    --gold: #C8A96A;
+    --gold-soft: #EED7A1;
+    --off-white: #E9E3D8;
+    --obsidian: #0A0A0A;
+    --cocoa: #14110F;
   }
 
   html {
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
+    scroll-behavior: smooth;
+    background: #000;
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased text-[var(--off-white)] bg-black;
+  }
+
+  /* Elevate serif utility to our luxury serif */
+  .font-serif {
+    font-family: var(--font-serif-luxe);
+  }
+
+  /* Selection colors in warm gold */
+  ::selection {
+    background: rgba(200,169,106,0.25);
+    color: var(--off-white);
   }
 }
 
@@ -42,5 +62,15 @@
     --tw-exit-rotate: initial;
     --tw-exit-translate-x: initial;
     --tw-exit-translate-y: initial;
+  }
+
+  /* Premium shadow utility */
+  .shadow-luxe {
+    box-shadow: 0 10px 40px rgba(0,0,0,0.45), 0 2px 0 rgba(255,255,255,0.02) inset;
+  }
+
+  /* Soft gold glow for hover states */
+  .glow-gold:hover {
+    box-shadow: 0 0 0 1px rgba(200,169,106,0.45), 0 0 24px rgba(200,169,106,0.18);
   }
 }
