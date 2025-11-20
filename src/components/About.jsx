@@ -1,13 +1,18 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import Bottle from './Bottle'
 
 const About = () => {
   return (
     <section id="about" className="relative w-full bg-[#0B0A09] py-28 sm:py-36 overflow-hidden">
-      {/* Warm reflections */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -top-20 -left-10 h-80 w-80 rounded-full blur-3xl" style={{ background: 'radial-gradient(circle at 30% 30%, rgba(120,84,48,0.18), transparent 60%)' }} />
-        <div className="absolute -bottom-10 -right-10 h-96 w-96 rounded-full blur-3xl" style={{ background: 'radial-gradient(circle at 70% 70%, rgba(200,169,106,0.12), transparent 60%)' }} />
+      {/* Decorative motion: remove abstract shapes, add subtle bottle silhouettes */}
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div className="absolute -left-6 top-16 opacity-[0.35]" animate={{ y: [0, -6, 0] }} transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}>
+          <Bottle className="w-12" duration={24} />
+        </motion.div>
+        <motion.div className="absolute right-2 bottom-24 opacity-[0.28]" animate={{ y: [0, 8, 0] }} transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}>
+          <Bottle className="w-10" duration={28} />
+        </motion.div>
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
@@ -33,17 +38,14 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Visuals */}
+          {/* Visuals: replace abstract forms with composition featuring bottle */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.1 }} className="relative">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[#C8A96A1A] bg-gradient-to-b from-black to-[#1a1510] shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
-              {/* Parallax layers */}
+              {/* Parallax layers and soft red-wine glow */}
               <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,0.04), transparent 30%)' }} />
-              <div className="absolute inset-0 bg-[radial-gradient(500px_220px_at_70%_20%,rgba(200,169,106,0.12),transparent_60%)]" />
-              {/* Mock accessories silhouettes */}
-              <div className="absolute bottom-0 left-0 right-0 h-1/2">
-                <div className="absolute bottom-6 left-8 h-40 w-24 rounded-t-2xl bg-gradient-to-b from-[#0E0E0E] to-black" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.02)' }} />
-                <div className="absolute bottom-10 left-40 h-28 w-28 rounded-full bg-gradient-to-b from-[#111] to-black" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.02)' }} />
-                <div className="absolute bottom-20 right-10 h-24 w-40 rounded-3xl bg-gradient-to-b from-[#111] to-black" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.02)' }} />
+              <div className="absolute inset-0 bg-[radial-gradient(500px_220px_at_70%_20%,rgba(62,8,12,0.35),transparent_60%)]" />
+              <div className="absolute inset-0 flex items-end justify-center pb-6">
+                <Bottle className="w-24" duration={20} />
               </div>
             </div>
           </motion.div>

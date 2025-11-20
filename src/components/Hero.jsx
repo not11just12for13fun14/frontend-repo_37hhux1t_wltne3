@@ -1,26 +1,27 @@
 import React, { useMemo } from 'react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import Spline from '@splinetool/react-spline'
+import Bottle from './Bottle'
+import WineFluidCanvas from './WineFluidCanvas'
 
 const Hero = () => {
-  // Generate particle seeds once
-  const seeds = useMemo(() => Array.from({ length: 10 }, () => ({
-    x: Math.random() * 100, // percent
-    y: Math.random() * 100, // percent
-    d: 24 + Math.random() * 24, // duration seconds
-    delay: Math.random() * 6,
-    size: 2 + Math.random() * 3,
-    driftX: 40 + Math.random() * 40,
-    driftY: 30 + Math.random() * 40
+  // Optional: extremely subtle warm-gold dust (tiny count)
+  const seeds = useMemo(() => Array.from({ length: 5 }, () => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    d: 30 + Math.random() * 30,
+    delay: Math.random() * 8,
+    size: 1 + Math.random() * 2,
+    driftX: 20 + Math.random() * 30,
+    driftY: 16 + Math.random() * 24
   })), [])
 
-  // Subtle pointer parallax for bottle
+  // Parallax for centerpiece
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
-  const rotY = useTransform(mx, [-50, 50], [-6, 6])
-  const rotX = useTransform(my, [-50, 50], [4, -4])
-  const transX = useTransform(mx, [-50, 50], [-8, 8])
-  const transY = useTransform(my, [-50, 50], [6, -6])
+  const rotY = useTransform(mx, [-50, 50], [-5, 5])
+  const rotX = useTransform(my, [-50, 50], [3, -3])
+  const transX = useTransform(mx, [-50, 50], [-6, 6])
+  const transY = useTransform(my, [-50, 50], [5, -5])
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -32,98 +33,37 @@ const Hero = () => {
 
   return (
     <section onMouseMove={handleMouseMove} className="relative h-[100svh] w-full overflow-hidden bg-[#0A0A0A]">
-      {/* Spline cover background (kept subtle) */}
-      <div className="absolute inset-0 opacity-[0.85]">
-        <Spline scene="https://prod.spline.design/vwPe8k3Yw7HcN4yu/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+      {/* BACKGROUND: Only deep black base + 3D flowing red-wine liquid behind bottle */}
+      <div className="absolute inset-0">
+        <WineFluidCanvas />
       </div>
 
-      {/* Cinematic spotlight and texture overlays (warmer but restrained) */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(1000px_600px_at_50%_20%,rgba(238,215,161,0.05),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(700px_400px_at_70%_80%,rgba(200,169,106,0.04),transparent_60%)]" />
-        <div className="absolute inset-0 mix-blend-overlay opacity-[0.06]" style={{ backgroundImage: 'linear-gradient(0deg, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-      </div>
-
-      {/* Low-density warm bokeh particles (background) */}
+      {/* Optional warm-gold dust (minimal, realistic glow) */}
       <div className="pointer-events-none absolute inset-0">
         {seeds.map((s, i) => (
           <motion.span
             key={i}
-            className="absolute rounded-full" 
+            className="absolute rounded-full"
             style={{
               top: `${s.y}%`,
               left: `${s.x}%`,
               width: s.size,
               height: s.size,
-              background: 'radial-gradient(circle, rgba(238,215,161,0.55) 0%, rgba(238,215,161,0.12) 65%, transparent 100%)',
-              filter: 'blur(1.5px)',
-              boxShadow: '0 0 18px rgba(200,169,106,0.20), 0 0 32px rgba(200,169,106,0.10)'
+              background: 'radial-gradient(circle, rgba(238,215,161,0.35) 0%, rgba(238,215,161,0.10) 70%, transparent 100%)',
+              filter: 'blur(1.2px)',
+              boxShadow: '0 0 12px rgba(200,169,106,0.15)'
             }}
             initial={{ opacity: 0 }}
-            animate={{
-              opacity: [0, 0.4, 0.25, 0.5, 0.15, 0],
-              x: [0, s.driftX],
-              y: [0, s.driftY]
-            }}
+            animate={{ opacity: [0, 0.25, 0.15, 0.28, 0.1, 0], x: [0, s.driftX], y: [0, s.driftY] }}
             transition={{ duration: s.d, delay: s.delay, repeat: Infinity, ease: 'linear' }}
           />
         ))}
       </div>
 
-      {/* Centerpiece: matte-black wine bottle */}
+      {/* Centerpiece: premium matte-black wine bottle with subtle warm-gold reflections */}
       <div className="absolute inset-0 z-[5] flex items-center justify-center">
-        <motion.div
-          style={{ rotateY: rotY, rotateX: rotX, x: transX, y: transY }}
-          className="relative"
-        >
-          {/* Bottle group */}
-          <div className="relative">
-            {/* Bottle shadow/ground */}
-            <div className="mx-auto h-6 w-[46vw] max-w-[520px] min-w-[260px] translate-y-1 rounded-full bg-black/40 blur-[10px] opacity-40" />
-
-            {/* Bottle body */}
-            <div className="mx-auto relative w-[18vw] max-w-[220px] min-w-[120px] h-[48vh] max-h-[600px] min-h-[420px]">
-              {/* main silhouette */}
-              <div className="absolute inset-0 rounded-b-[28px]" style={{
-                background: 'linear-gradient(180deg, #0B0A09 0%, #14110F 60%, #0B0A09 100%)',
-                boxShadow: 'inset 0 -40px 60px rgba(0,0,0,0.6), inset 0 20px 40px rgba(0,0,0,0.4)'
-              }} />
-
-              {/* shoulders */}
-              <div className="absolute left-1/2 top-[8%] h-[18%] w-[84%] -translate-x-1/2 rounded-[40%/60%]" style={{
-                background: 'radial-gradient(ellipse at 50% 30%, #0E0D0C 0%, #0A0A0A 70%)',
-                filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.6))'
-              }} />
-
-              {/* neck */}
-              <div className="absolute left-1/2 top-[0%] h-[24%] w-[26%] -translate-x-1/2 rounded-[10px]" style={{
-                background: 'linear-gradient(180deg, #0E0D0C 0%, #14110F 100%)'
-              }} />
-
-              {/* lip */}
-              <div className="absolute left-1/2 top-[-2%] h-[3%] w-[32%] -translate-x-1/2 rounded-[10px] bg-[#0F0E0D]" />
-
-              {/* subtle gold rim light (very restrained) */}
-              <div className="pointer-events-none absolute inset-0 rounded-b-[28px]" style={{
-                background: 'linear-gradient(90deg, rgba(238,215,161,0.00) 0%, rgba(238,215,161,0.06) 35%, rgba(200,169,106,0.10) 50%, rgba(238,215,161,0.04) 65%, rgba(238,215,161,0.00) 100%)',
-                mixBlendMode: 'screen',
-                filter: 'blur(0.4px)'
-              }} />
-
-              {/* faint vertical specular */}
-              <div className="pointer-events-none absolute left-[34%] top-[6%] h-[70%] w-[10%] rounded-full" style={{
-                background: 'linear-gradient(180deg, rgba(238,215,161,0.03) 0%, rgba(255,255,255,0.06) 30%, rgba(238,215,161,0.02) 100%)',
-                filter: 'blur(2px)',
-                opacity: 0.35
-              }} />
-
-              {/* label placeholder (matte black-on-black) */}
-              <div className="absolute left-1/2 top-[48%] h-[16%] w-[58%] -translate-x-1/2 rounded-md" style={{
-                background: 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 100%)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02), inset 0 -1px 0 rgba(255,255,255,0.02)'
-              }} />
-            </div>
-          </div>
+        <motion.div style={{ rotateY: rotY, rotateX: rotX, x: transX, y: transY }}>
+          <Bottle className="w-[18vw] max-w-[260px] min-w-[130px]" duration={28} />
         </motion.div>
       </div>
 
@@ -161,7 +101,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Subtle vignette */}
+      {/* Subtle vignette for cinematic framing */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_120%,transparent,rgba(0,0,0,0.55))]" />
     </section>
   )

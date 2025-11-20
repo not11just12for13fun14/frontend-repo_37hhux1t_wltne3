@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import Bottle from './Bottle'
 
 const services = [
   { title: 'Brand Systems', desc: 'Elegant, enduring identity frameworks' },
@@ -11,20 +12,14 @@ const services = [
 const Services = () => {
   return (
     <section id="services" className="relative w-full bg-[#0A0A0A] py-28 sm:py-36 overflow-hidden">
-      {/* Fluid morphing background shapes */}
-      <div className="pointer-events-none absolute inset-0">
-        <motion.div
-          className="absolute -top-20 -left-20 h-[520px] w-[520px] rounded-[40%_60%_55%_45%/60%_35%_65%_40%] opacity-30"
-          style={{ background: 'radial-gradient(circle at 30% 30%, rgba(120,84,48,0.2), transparent 60%)' }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.div
-          className="absolute -bottom-24 right-0 h-[640px] w-[640px] rounded-[55%_45%_60%_40%/40%_60%_35%_65%] opacity-25"
-          style={{ background: 'radial-gradient(circle at 70% 70%, rgba(200,169,106,0.18), transparent 60%)' }}
-          animate={{ rotate: -360 }}
-          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-        />
+      {/* Decorative motion: small subtle wine bottles. No abstract shapes. */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
+        <motion.div className="absolute -left-10 top-10" animate={{ y: [0, -8, 0] }} transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}>
+          <Bottle className="w-14 opacity-60" duration={20} />
+        </motion.div>
+        <motion.div className="absolute right-6 bottom-10" animate={{ y: [0, 10, 0] }} transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut' }}>
+          <Bottle className="w-12 opacity-50" duration={24} />
+        </motion.div>
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10">
@@ -43,7 +38,8 @@ const Services = () => {
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               className="group relative overflow-hidden rounded-2xl border border-[#C8A96A1A] bg-[#0B0B0B]/80 p-8 shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
             >
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: 'radial-gradient(600px_240px_at_20%_10%, rgba(200,169,106,0.12), transparent 60%)' }} />
+              {/* optional soft red-wine liquid glow behind title */}
+              <div className="absolute inset-0 opacity-[0.08]" style={{ background: 'radial-gradient(600px_240px_at_20%_10%, rgba(62,8,12,0.6), transparent 60%)' }} />
               <div className="relative">
                 <div className="text-[#C8A96A] tracking-wide">{s.title}</div>
                 <div className="mt-2 text-[#E9E3D8]/70">{s.desc}</div>
